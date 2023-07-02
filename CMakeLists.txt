@@ -29,11 +29,18 @@ elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     find_package(Vulkan REQUIRED)
 
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-    set(GLFW_LIB_DIR "/usr/local/lib")
-    set(GLFW_INCLUDE_DIR "/usr/local/include")
+    set(GLFW_LIB_DIR "/usr/local/Cellar/glfw/3.3.8/")
+    set(GLFW_INCLUDE_DIR "/usr/local/Cellar/glfw/3.3.8/include")
 
-    # Find Vulkan package
+    # Find GLFW and Vulkan package
+    find_package(GLFW3 REQUIRED)
     find_package(Vulkan REQUIRED)
+
+    # Include GLFW and Vulkan directories
+    include_directories(${GLFW3_INCLUDE_DIRS} ${VULKAN_INCLUDE_DIR})
+
+    # Set GLFW libraries
+    set(GLFW_LIBRARIES ${GLFW3_LIBRARIES})
 endif()
 
 # Add header files

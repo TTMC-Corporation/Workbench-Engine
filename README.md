@@ -89,6 +89,12 @@ cd Relase
 ## mac os
 ### Mac os is not supported but if you want you can try it out
 
+### download necessary dependencies
+``` bash
+brew install glfw
+brew install vulkan-tools
+```
+
 ### install cmake and git
 ``` bash
 brew install cmake
