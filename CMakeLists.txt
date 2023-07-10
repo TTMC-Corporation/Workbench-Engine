@@ -8,6 +8,14 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 find_package(Vulkan REQUIRED)
 
+# Specify the include directory for GLFW
+if (UNIX)
+    set(GLFW_INCLUDE_DIRS "/usr/include/GLFW") 
+
+else()
+
+endif()
+
 # Add source files
 file(GLOB CPP_SOURCES "src/log/*.cpp")
 file(GLOB CPP_SOURCES "src/renderer/*.cpp")
@@ -20,4 +28,7 @@ target_include_directories(app PRIVATE "headers/log")
 target_include_directories(app PRIVATE "headers/renderer")
 
 # Link Vulkan and GLFW libraries
-target_link_libraries(app PRIVATE ${VULKAN_LIBRARIES} )
+target_link_libraries(app PRIVATE ${VULKAN_LIBRARIES} ${GLFW_LIBRARIES})
+
+# Specify the GLFW library
+target_link_libraries(app PRIVATE glfw)

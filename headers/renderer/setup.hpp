@@ -3,8 +3,7 @@ namespace Renderer
     class Setup
     {
     public:
-        void teszt();
-
+        int teszt();
     private:
 
     };
