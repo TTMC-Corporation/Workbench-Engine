@@ -59,11 +59,6 @@ make
 
 ## Windows
 
-## download necessary dependencies
-Download and put GLFW and VULKAN to the libraries folder    
-GLFW: https://www.glfw.org/download.html 64 bit binaries            
-VULKAN: https://vulkan.lunarg.com/sdk/home download the latest sdk
-
 ### install cmake and git
 https://cmake.org/download/
 https://git-scm.com/downloads
@@ -82,37 +77,4 @@ cmake --build . --config Release
 ``` cmd
 cd Relase
 ./app.exe
-```
-
-<br>
-
-## mac os
-### Mac os is not supported but if you want you can try it out
-
-### download necessary dependencies
-``` bash
-brew install glfw
-brew install vulkan-tools
-```
-
-### install cmake and git
-``` bash
-brew install cmake
-brew install git
-```
-
-### Download and build the project
-``` bash
-``` bash
-git clone https://github.com/TTMC-Corporation/Workbench-Engine
-cd Workbench-Engine
-mkdir build
-cd build
-cmake ..
-make
-```
-
-### run
-``` bash
-./app
 ```
