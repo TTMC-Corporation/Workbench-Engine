@@ -18,15 +18,17 @@ else()
 endif()
 
 # Add source files
-file(GLOB CPP_SOURCES "src/log/*.cpp")
-file(GLOB CPP_SOURCES "src/renderer/*.cpp")
+file(GLOB CPP_SOURCES_1 "src/log/*.cpp")
+file(GLOB CPP_SOURCES_2 "src/renderer/*.cpp")
+file(GLOB CPP_SOURCES_3 "src/game/*.cpp")
 
 # Create the executable
-add_executable(app ${CPP_SOURCES} app.cpp)
+add_executable(app ${CPP_SOURCES_1} ${CPP_SOURCES_2} ${CPP_SOURCES_3} app.cpp)
 
 # Add header files
 target_include_directories(app PRIVATE "headers/log")
 target_include_directories(app PRIVATE "headers/renderer")
+target_include_directories(app PRIVATE "headers/game")
 
 # Link Vulkan and GLFW libraries
 target_link_libraries(app PRIVATE ${VULKAN_LIBRARIES} ${GLFW_LIBRARIES})

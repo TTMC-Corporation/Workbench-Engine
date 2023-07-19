@@ -1,7 +1,11 @@
-#include "headers/renderer/setup.hpp"
+#include "headers/renderer/VulkanSetup.hpp"
+#include "headers/game/game.hpp"
+#include "headers/log/log.hpp"
 
 int main()
 {
-    Renderer::Setup s;
-    s.teszt();
+    Log log;
+    Renderer::VulkanSetup vulkan;
+    log.Print(2, "aaaa");
+    Game game(vulkan.GetGLFWWindow());
 }

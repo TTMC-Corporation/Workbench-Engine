@@ -6,5 +6,5 @@ private:
     const char* message; 
 
 public:
-    void Print(int logLevel, const char* message);
+    static void Print(int logLevel, const char* message);
 };
