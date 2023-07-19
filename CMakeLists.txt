@@ -13,7 +13,8 @@ if (UNIX)
     set(GLFW_INCLUDE_DIRS "/usr/include/GLFW") 
 
 else()
-
+    set(GLFW_INCLUDE_DIRS "C:/Users/Andris-PC/Downloads/glfw-3.3.8.bin.WIN64/include/GLFW/")
+    
 endif()
 
 # Add source files
