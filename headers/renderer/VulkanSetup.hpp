@@ -12,17 +12,21 @@ namespace Renderer
         GLFWwindow* GetGLFWWindow() const;
 
     private:
+        void Run();
         void InitWindow();
         void InitVulkan();
+        void CreateInstance();
+        void Version();
+
+    private:
+        GLFWwindow* window;
+        VkInstance instance;
 
     /* this is temporary and I will access 
-    them from the setup class when it is ready */
+    them from the settings class when it is ready */
     private:
         int screenWidth;
         int screenHeight;
         const char* name;
-
-    private:
-        GLFWwindow* window;
     };
 }

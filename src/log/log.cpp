@@ -2,7 +2,7 @@
 #include <iostream>
 #include <stdlib.h>
 
-void Log::Print(int logLevel, const char* message)
+void Log::Print(int logLevel, std::string message)
 {
     if (logLevel == 0)
     {

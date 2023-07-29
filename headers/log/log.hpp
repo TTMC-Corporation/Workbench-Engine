@@ -1,4 +1,6 @@
 #pragma once 
+#include <iostream>
+
 class Log
 {
 private:
@@ -6,5 +8,5 @@ private:
     const char* message; 
 
 public:
-    static void Print(int logLevel, const char* message);
+    static void Print(int logLevel, std::string message);
 };

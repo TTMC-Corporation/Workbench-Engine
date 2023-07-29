@@ -4,8 +4,6 @@
 
 int main()
 {
-    Log log;
     Renderer::VulkanSetup vulkan;
-    log.Print(2, "aaaa");
     Game game(vulkan.GetGLFWWindow());
 }
