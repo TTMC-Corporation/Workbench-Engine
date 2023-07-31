@@ -19,6 +19,5 @@ void Game::MainLoop()
 
 Game::~Game()
 {
-    glfwDestroyWindow(window);
-    glfwTerminate();
+
 }

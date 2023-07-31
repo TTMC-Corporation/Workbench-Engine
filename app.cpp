@@ -4,6 +4,9 @@
 
 int main()
 {
-    Renderer::VulkanSetup vulkan;
-    Game game(vulkan.GetGLFWWindow());
+    Renderer::VulkanSetup *vulkan_setup = new Renderer::VulkanSetup();
+    Game *game = new Game(vulkan_setup->GetGLFWWindow());
+
+    delete vulkan_setup;
+    delete game;
 }

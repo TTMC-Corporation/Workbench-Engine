@@ -22,8 +22,9 @@ sudo apt install vulkan-dev
 #### arch
 ``` bash
 sudo pacman -S glfw-x11
-sudo pacman -S vulkan-icd-loader vulkan-validation-layers
-sudo pacman -S vulkan-devel
+pacman -S vulkan-headers
+sudo pacman -S vulkan-tools
+sudo pacman -S vulkan-validation-layers
 ```
 
 ### install cmake and git

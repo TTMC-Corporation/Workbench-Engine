@@ -1,6 +1,7 @@
 #pragma once
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
+#include <vector>
 
 namespace Renderer
 {
@@ -9,7 +10,7 @@ namespace Renderer
     public:
         VulkanSetup();
         ~VulkanSetup();
-        GLFWwindow* GetGLFWWindow() const;
+        GLFWwindow* GetGLFWWindow();
 
     private:
         void Run();
@@ -17,14 +18,14 @@ namespace Renderer
         void InitVulkan();
         void CreateInstance();
         void Version();
+        bool CheckValidationLayerSupport();
+        std::vector<const char*> GetExtensions();
 
     private:
         GLFWwindow* window;
         VkInstance instance;
-
-    /* this is temporary and I will access 
-    them from the settings class when it is ready */
-    private:
+        bool enableValidationLayers;
+        const std::vector<const char*> validationLayers = {"VK_LAYER_KHRONOS_validation"};
         int screenWidth;
         int screenHeight;
         const char* name;

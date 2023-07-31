@@ -34,4 +34,4 @@ target_include_directories(app PRIVATE "headers/game")
 target_link_libraries(app PRIVATE ${VULKAN_LIBRARIES} ${GLFW_LIBRARIES})
 
 # Specify the GLFW library
-target_link_libraries(app PRIVATE glfw)
+target_link_libraries(app PRIVATE Vulkan::Vulkan glfw)
