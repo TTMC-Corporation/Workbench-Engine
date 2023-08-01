@@ -20,6 +20,9 @@ namespace Renderer
         void Version();
         bool CheckValidationLayerSupport();
         std::vector<const char*> GetExtensions();
+        void PickPhisicalDevice();
+        bool IsDeviceSuitable(VkPhysicalDevice device);
+        int rateDeviceSuitability(VkPhysicalDevice device);
 
     private:
         GLFWwindow* window;
@@ -29,5 +32,6 @@ namespace Renderer
         int screenWidth;
         int screenHeight;
         const char* name;
+        VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
     };
 }

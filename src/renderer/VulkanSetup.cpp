@@ -3,15 +3,19 @@
 #include <iostream>
 #include <vector>
 #include <cstring>
+#include <map>
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
-#include <vulkan/vulkan.h>
 
 namespace Renderer
 {
     VulkanSetup::VulkanSetup()
     {
-        this->enableValidationLayers = true;
+        #ifdef NDEBUG
+            this->enableValidationLayers = false;
+        #else
+            this->enableValidationLayers = true;
+        #endif
         this->screenWidth = 1280;
         this->screenHeight = 720;
         this->name = "Workbanch-Engine";
@@ -23,6 +27,7 @@ namespace Renderer
         InitWindow();
         Version();
         InitVulkan();
+        PickPhisicalDevice(); 
     }
 
     void VulkanSetup::InitWindow()
@@ -43,7 +48,7 @@ namespace Renderer
     void VulkanSetup::CreateInstance()
     {
         if (enableValidationLayers && !CheckValidationLayerSupport()) {
-            Log::Print(1 ,"Validation layers not available!");
+            Log::Print(2 ,"Validation layers not available!");
         }
 
         VkApplicationInfo appInfo = {};
@@ -70,7 +75,7 @@ namespace Renderer
         }
 
         if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
-            Log::Print(1, "Failed to create Vulkan instance!");
+            Log::Print(2, "Failed to create Vulkan instance!");
         }
     }
 
@@ -120,6 +125,85 @@ namespace Renderer
         }
 
         return extensions;
+    }
+
+    void VulkanSetup::PickPhisicalDevice()
+    {
+        uint32_t deviceCount = 0;
+        vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
+
+        if (deviceCount == 0) 
+        {
+            Log::Print(2, "failed to find GPUs with Vulkansupport!");
+        }
+
+        std::vector<VkPhysicalDevice> devices(deviceCount);
+        vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
+
+        std::multimap<int, VkPhysicalDevice> candidates;
+
+        for (const auto& device : devices) 
+        {
+            int score = rateDeviceSuitability(device);
+            candidates.insert(std::make_pair(score, device));
+        }
+
+        if (candidates.rbegin()->first > 0) 
+        {
+            physicalDevice = candidates.rbegin()->second;
+        } else {
+            Log::Print(2, "failed to find a suitable GPU!");
+        }
+
+        for (const auto& device : devices) 
+        {
+            if (IsDeviceSuitable(device)) 
+            {
+                physicalDevice = device;
+                break;
+            }
+
+            if (physicalDevice == VK_NULL_HANDLE) 
+            {
+                Log::Print(2, "failed to find a suitable GPU!");
+            }
+        }
+    }
+
+    bool VulkanSetup::IsDeviceSuitable(VkPhysicalDevice device)
+    {
+        VkPhysicalDeviceProperties deviceProperties;
+        VkPhysicalDeviceFeatures deviceFeatures;
+        vkGetPhysicalDeviceProperties(device, &deviceProperties);
+        vkGetPhysicalDeviceFeatures(device, &deviceFeatures);
+
+        return deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU &&
+            deviceFeatures.geometryShader;
+    }
+
+    int VulkanSetup::rateDeviceSuitability(VkPhysicalDevice device)
+    {
+        VkPhysicalDeviceProperties deviceProperties;
+        vkGetPhysicalDeviceProperties(device, &deviceProperties);
+
+        int score = 0;
+
+        if (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)
+        {
+            score += 1000;
+        }
+
+        score += deviceProperties.limits.maxImageDimension2D;
+
+        VkPhysicalDeviceFeatures deviceFeatures;
+        vkGetPhysicalDeviceFeatures(device, &deviceFeatures);
+
+        if (!deviceFeatures.geometryShader)
+        {
+            return 0;
+        }
+
+        return score;
     }
 
     GLFWwindow* VulkanSetup::GetGLFWWindow()

@@ -57,25 +57,3 @@ make
 ```
 
 <br>
-
-## Windows
-
-### install cmake and git
-https://cmake.org/download/
-https://git-scm.com/downloads
-
-### download and build the project
-``` cmd
-git clone https://github.com/TTMC-Corporation/Workbench-Engine
-cd Workbench-Engine
-mkdir build
-cd build
-cmake ..
-cmake --build . --config Release
-```
-
-### run
-``` cmd
-cd Relase
-./app.exe
-```
