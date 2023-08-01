@@ -1,59 +1,40 @@
 # Workbench Engine
 
-### Workbench engine is a small simple game engine written in c++ with vulkan. 
-### The map editor is created in c# and you can download here: https://github.com/TTMC-Corporation/Workbench-World-Editor
+### Workbench engine is a small simple game engine written in c++ with vulkan
+
+### The map editor is created in c# and you can download here: <https://github.com/TTMC-Corporation/Workbench-World-Editor>
 
 <br>
 
 # build
 
-<br>
 
 ## Linux
 
-### download necessary dependencies
-#### debian
-``` bash
-download necessary dependencies
-sudo apt install vulkan-utils libvulkan1
-sudo apt install vulkan-dev
-```
+### install git
 
 #### arch
-``` bash
-sudo pacman -S glfw-x11
-pacman -S vulkan-headers
-sudo pacman -S vulkan-tools
-sudo pacman -S vulkan-validation-layers
-```
 
-### install cmake and git
-
-#### debian 
 ``` bash
-sudo ap-get install cmake
-sudo ap-get install git
-```
-
-#### arch
-``` bash
-sudo pacman -S cmake
 sudo pacman -S git
 ```
 
-### download and build the project
+#### debian
+
+``` bash
+sudo apt-get install git
+```
+
+### download the project
+
 ``` bash
 git clone https://github.com/TTMC-Corporation/Workbench-Engine
 cd Workbench-Engine
-mkdir build
-cd build
-cmake ..
-make
 ```
 
-### run
+### install dependeces, build the projec, run
+
 ``` bash
-./app
+chmod +x run.sh
+./run.sh
 ```
-
-<br>
