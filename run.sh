@@ -26,7 +26,7 @@ elif [ -f "/etc/os-release" ]; then
                 echo "$package_name already installed."
             else
                 echo "$package_name is not installed."
-                sudo apt-get install -y &package_name
+                sudo apt-get install -y $package_name
             fi
         done
     fi   
