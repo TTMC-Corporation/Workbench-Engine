@@ -4,6 +4,7 @@
 #include <vector>
 #include <cstring>
 #include <map>
+#include <optional>
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
@@ -25,9 +26,15 @@ namespace Renderer
     void VulkanSetup::Run()
     {
         InitWindow();
+        Log::Print(0, "ez még lwfut");
         Version();
+        Log::Print(0, "ez még lwfut");
         InitVulkan();
-        PickPhisicalDevice(); 
+        Log::Print(0, "ez még lwfut");
+        //PickPhisicalDevice(); 
+        Log::Print(0, "ez még lwfut");
+        //CreateLogicalDevice();
+        Log::Print(0, "ez még lwfut");
     }
 
     void VulkanSetup::InitWindow()
@@ -47,7 +54,8 @@ namespace Renderer
 
     void VulkanSetup::CreateInstance()
     {
-        if (enableValidationLayers && !CheckValidationLayerSupport()) {
+        if (enableValidationLayers && !CheckValidationLayerSupport()) 
+        {
             Log::Print(2 ,"Validation layers not available!");
         }
 
@@ -67,14 +75,17 @@ namespace Renderer
         createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
         createInfo.ppEnabledExtensionNames = extensions.data();
 
-        if (enableValidationLayers) {
+        if (enableValidationLayers) 
+        {
             createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
             createInfo.ppEnabledLayerNames = validationLayers.data();
-        } else {
+        } else 
+        {
             createInfo.enabledLayerCount = 0;
         }
 
-        if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
+        if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) 
+        {
             Log::Print(2, "Failed to create Vulkan instance!");
         }
     }
@@ -89,25 +100,26 @@ namespace Renderer
 
         return false;
 
-        for (const char* layerName : validationLayers) {
-        bool layerFound = false;
-
-        for (const auto& layerProperties : availableLayers) 
+        for (const char* layerName : validationLayers) 
         {
-            if (std::strcmp(layerName, layerProperties.layerName) == 0) 
-            {
-                layerFound = true;
-                break;
-            }
-        }
+            bool layerFound = false;
 
-            if (!layerFound) 
+            for (const auto& layerProperties : availableLayers) 
             {
-                return false;
+                if (std::strcmp(layerName, layerProperties.layerName) == 0) 
+                {
+                    layerFound = true;
+                    break;
+                }
+
+                if (!layerFound) 
+                {
+                    return false;
+                }
             }
-        }
 
         return true;
+        }
     }
     
 
@@ -120,7 +132,8 @@ namespace Renderer
 
         std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
 
-        if (enableValidationLayers) {
+        if (enableValidationLayers) 
+        {
             extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
         }
 
@@ -134,7 +147,8 @@ namespace Renderer
 
         if (deviceCount == 0) 
         {
-            Log::Print(2, "failed to find GPUs with Vulkansupport!");
+            Log::Print(2, "failed to find GPUs with Vulkan support!");
+            return;
         }
 
         std::vector<VkPhysicalDevice> devices(deviceCount);
@@ -148,25 +162,25 @@ namespace Renderer
             candidates.insert(std::make_pair(score, device));
         }
 
-        if (candidates.rbegin()->first > 0) 
+        if (candidates.rbegin()->first > 0)
         {
             physicalDevice = candidates.rbegin()->second;
-        } else {
-            Log::Print(2, "failed to find a suitable GPU!");
+
+            VkPhysicalDeviceProperties deviceProperties;
+            vkGetPhysicalDeviceProperties(physicalDevice, &deviceProperties);
+
+            Log::Print(0, "Found GPU: " + std::string(deviceProperties.deviceName));
+
+            QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
+            if (!indices.isComplete()) 
+            {
+                Log::Print(2, "failed to find a suitable graphics queue family!");
+                return; 
+            }
         }
-
-        for (const auto& device : devices) 
+        else
         {
-            if (IsDeviceSuitable(device)) 
-            {
-                physicalDevice = device;
-                break;
-            }
-
-            if (physicalDevice == VK_NULL_HANDLE) 
-            {
-                Log::Print(2, "failed to find a suitable GPU!");
-            }
+            Log::Print(2, "failed to find a suitable GPU!");
         }
     }
 
@@ -204,6 +218,64 @@ namespace Renderer
         }
 
         return score;
+    }
+
+    QueueFamilyIndices VulkanSetup::findQueueFamilies(VkPhysicalDevice device)
+    {
+        QueueFamilyIndices indices;
+
+        std::optional<uint32_t> graphicsFamily;
+        std::cout << std::boolalpha << graphicsFamily.has_value() << std::endl;
+        graphicsFamily = 0;
+        std::cout << std::boolalpha << graphicsFamily.has_value() << std::endl; 
+
+        return indices;
+    }
+
+    QueueFamilyIndices VulkanSetup::findQueueFamilies(VkPhysicalDevice device)
+    {
+        QueueFamilyIndices indices;
+
+        uint32_t queueFamilyCount = 0;
+        vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
+        std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+        vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
+
+        int i = 0;
+        for (const auto& queueFamily : queueFamilies) 
+        {
+            if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) 
+            {
+                indices.graphicsFamily = i;
+            }
+
+            if (indices.isComplete()) 
+            {
+                break;
+            }
+
+            i++;
+        }
+
+        return indices;
+    }
+
+
+    void VulkanSetup::CreateLogicalDevice()
+    {
+        QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
+
+        VkDeviceQueueCreateInfo queueCreateInfo{};
+        queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+        queueCreateInfo.queueFamilyIndex = indices.graphicsFamily;
+        queueCreateInfo.queueCount = 1;
+        float queuePriority = 1.0f;
+        queueCreateInfo.pQueuePriorities = &queuePriority;
+    }
+
+    bool VulkanSetup::isComplete()
+    {
+        return graphicsFamily.has_value();
     }
 
     GLFWwindow* VulkanSetup::GetGLFWWindow()

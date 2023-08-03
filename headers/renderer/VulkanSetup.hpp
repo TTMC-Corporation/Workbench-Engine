@@ -1,4 +1,5 @@
 #pragma once
+
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 #include <vector>
@@ -23,6 +24,9 @@ namespace Renderer
         void PickPhisicalDevice();
         bool IsDeviceSuitable(VkPhysicalDevice device);
         int rateDeviceSuitability(VkPhysicalDevice device);
+        QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
+        void CreateLogicalDevice();
+        bool isComplete();
 
     private:
         GLFWwindow* window;
@@ -33,5 +37,10 @@ namespace Renderer
         int screenHeight;
         const char* name;
         VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
+
+        typedef struct QueueFamilyIndices {
+            uint32_t graphicsFamily;
+        } QueueFamilyIndices;
+
     };
 }
