@@ -1,8 +1,7 @@
 #include "../../headers/log/log.hpp"
-#include <iostream>
-#include <stdlib.h>
 
-void Log::Print(int logLevel, std::string message)
+
+void Engine::Log::TerminalLog::Print(int logLevel, std::string message)
 {
     if (logLevel == 0)
     {

@@ -1,12 +1,16 @@
-#include "headers/renderer/VulkanSetup.hpp"
-#include "headers/game/game.hpp"
-#include "headers/log/log.hpp"
+#include "headers/definitions/settings.hpp"
+#include "headers/renderer/window.hpp"
 
 int main()
 {
-    Renderer::VulkanSetup *vulkan_setup = new Renderer::VulkanSetup();
-    Game *game = new Game(vulkan_setup->GetGLFWWindow());
+    settings setting = {1280, 720, "Engine"};
 
-    delete vulkan_setup;
-    delete game;
+    Engine::Renderer::Window *window = new Engine::Renderer::Window();
+    window->createWindow(setting);
+    while (!window->shouldClose())
+    {
+        glfwPollEvents();
+    }
+
+    delete window;
 }
