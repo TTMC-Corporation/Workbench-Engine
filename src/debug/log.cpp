@@ -1,7 +1,7 @@
-#include "../../headers/log/log.hpp"
+#include "../../headers/debug/log.hpp"
 
 
-void Engine::Log::TerminalLog::Print(int logLevel, std::string message)
+void Engine::Debug::TerminalLog::Print(int logLevel, std::string message)
 {
     if (logLevel == 0)
     {

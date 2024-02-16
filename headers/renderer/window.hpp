@@ -1,8 +1,10 @@
 #pragma once
+#define GLFW_INCLUDE_VULKAN
 
 #include <GLFW/glfw3.h>
 
 #include "../definitions/settings.hpp"
+#include "../debug/log.hpp"
 
 namespace Engine
 {

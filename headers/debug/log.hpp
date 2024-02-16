@@ -4,7 +4,7 @@
 
 namespace Engine
 {
-    namespace Log
+    namespace Debug
     {
         class TerminalLog
         {
