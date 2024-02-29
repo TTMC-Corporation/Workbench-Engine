@@ -1,10 +1,22 @@
 #include "../../headers/renderer/vulkan.hpp"
-#include "../debug/log.hpp"
 
 Engine::Renderer::Vulkan::Vulkan()
 {
     checkForExtension();
     createInstance();
+
+    /*
+    this->validationLayer = new Engine::Debug::ValidationLayer();
+    if (validationLayer->checkValidationLayerSupport())
+    {
+        validationLayer->setupDebugMessenger(instance, debugMessenger); // Access validationLayer using a pointer
+    }
+    else 
+    {
+        Engine::Debug::TerminalLog::Print(2, "Validation layers are not supported!");
+        delete validationLayer;
+    }
+    */
 }
 
 void Engine::Renderer::Vulkan::createInstance()
@@ -61,6 +73,7 @@ void Engine::Renderer::Vulkan::checkForExtension()
 
 Engine::Renderer::Vulkan::~Vulkan()
 {
+    //delete validationLayer;
     vkDestroyInstance(instance, nullptr);
     glfwTerminate();
 }

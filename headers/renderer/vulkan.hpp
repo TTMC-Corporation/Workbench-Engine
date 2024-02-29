@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include "../debug/log.hpp"
+//#include "../debug/validationLayer.hpp"
 
 namespace Engine
 {
@@ -17,14 +18,18 @@ namespace Engine
             Vulkan();
             ~Vulkan();
 
+        public:
+            VkInstance instance;
+
         private:
             void createInstance();
             void checkForExtension();
 
         private:
-            VkInstance instance;
             VkResult result;
             uint32_t extensionCount = 0;
+            //Engine::Debug::ValidationLayer* validationLayer;
+            //VkDebugUtilsMessengerEXT debugMessenger; 
         };
     }
 }
